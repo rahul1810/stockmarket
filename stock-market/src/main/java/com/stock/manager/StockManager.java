@@ -1,53 +1,33 @@
-package com.stock.service;
+package com.stock.manager;
 
 import java.sql.Timestamp;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import com.stock.entity.Stock;
 import com.stock.exception.StockException;
-import com.stock.util.Constants;
 import com.stock.util.ResponseCodes;
 
 @Component
-public class StockService{
+public class StockManager{
 	
- 
-	private static Logger logger = LoggerFactory.getLogger(StockService.class);
+	@Autowired
+	private Environment env;
 	
-	/*
-	 * This static block creates random stocks as per the constraints specified in Contstants.java 
-	 */
-	private static Map<Integer, Stock> stockMap = new HashMap<>();
-	static {
-		logger.info("Creating " +Constants.stockCount +" stocks");
-		for(int i = 1; i<= Constants.stockCount; i++){
-			String name = randomAlphabeticString(Constants.stockNameLength);
-			double currentPrice = (double) (Math.random() * Constants.maxStockPrice);
-			currentPrice = Math.round(currentPrice*100)/100.0;
-			Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-			stockMap.put(i, new Stock(i, name, currentPrice, currentTime));
-		}
-		logger.info("Stock Map has been updated "+stockMap);
-	}
+	private static Logger logger = LoggerFactory.getLogger(StockManager.class);
 	
-	static String randomAlphabeticString(int count) {
-		
-		StringBuilder builder = new StringBuilder();
-		while (count-- != 0) {
-		int character = (int)(Math.random()*Constants.ALPHA_NUMERIC_STRING.length());
-		builder.append(Constants.ALPHA_NUMERIC_STRING.charAt(character));
-		}
-		return builder.toString();
-	}
+	private Map<Integer, Stock> stockMap;
 	
 	/*
 	 * Returns list of all stocks present in memory
@@ -82,6 +62,34 @@ public class StockService{
 			throw new StockException(ResponseCodes.STOCK_ALREADY_EXISTS);
 		stock.setLastUpdate(new Timestamp(System.currentTimeMillis()));
 		stockMap.put(stock.getId(), stock);
+	}
+	
+	@PostConstruct
+	private void initailise(){
+		int stockCount = Integer.parseInt(env.getProperty("config.stockCount"));
+		int stockNameLength = Integer.parseInt(env.getProperty("config.stockNameLength"));
+		int maxStockPrice =  Integer.parseInt(env.getProperty("config.maxStockPrice"));
+		logger.info("Creating " + stockCount +" stocks");
+		stockMap = new HashMap<>();
+		for(int i = 1; i<= stockCount; i++){
+			String name = randomAlphabeticString(stockNameLength);
+			double currentPrice = (double) (Math.random() * maxStockPrice);
+			currentPrice = Math.round(currentPrice*100)/100.0;
+			Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+			stockMap.put(i, new Stock(i, name, currentPrice, currentTime));
+		}
+		logger.info("Stock Map has been updated "+stockMap);
+	}
+	
+	private String randomAlphabeticString(int count) {
+		
+		StringBuilder builder = new StringBuilder();
+		while (count-- != 0) {
+			String ALLOWED_CHARS = env.getProperty("config.allowedcharsinstockname");
+		int character = (int)(Math.random()*ALLOWED_CHARS.length());
+		builder.append(ALLOWED_CHARS.charAt(character));
+		}
+		return builder.toString();
 	}
 	
 }

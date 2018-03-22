@@ -5,17 +5,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.stock.service.StockService;
+import com.stock.manager.StockManager;
 
 @Controller
 public class ViewController {
 	
 	@Autowired
-	StockService stockService;
+	StockManager stockManager;
 	
 	@RequestMapping("/view")
 	public String view(Model model){
-		model.addAttribute("stocks", stockService.getAllStocks());
+		model.addAttribute("stocks", stockManager.getAllStocks());
 		return "view";
 	}
 
