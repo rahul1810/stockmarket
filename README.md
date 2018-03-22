@@ -3,6 +3,7 @@
 This application is a basic stock market simulation. It loads content at startup, which are randomised through configuration file *application.properties*.
 
 To run the application, take checkout and execute the below command from project directory
+
 `mvn spring-boot:run`
 
 ## Web UI
