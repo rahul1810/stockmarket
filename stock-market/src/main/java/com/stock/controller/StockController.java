@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -49,11 +48,5 @@ public class StockController {
 		}
 		return new ResponseEntity<>(ResponseMessages.messages.get(ResponseCodes.SUCCESS),HttpStatus.OK);
 	}
-	
-	@RequestMapping(value = "/stocks/view", method = RequestMethod.GET)
-	public String view(ModelMap model) {
-        model.put("stocks", stockService.getAllStocks());
-        return "view";
-    }
 
 }

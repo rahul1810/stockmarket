@@ -1,6 +1,7 @@
 package com.stock.service;
 
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,12 +26,13 @@ public class StockService{
 	/*
 	 * This static block creates random stocks as per the constraints specified in Contstants.java 
 	 */
-	public static Map<Integer, Stock> stockMap = new HashMap<>();
+	private static Map<Integer, Stock> stockMap = new HashMap<>();
 	static {
 		logger.info("Creating " +Constants.stockCount +" stocks");
-		for(int i = 0; i< Constants.stockCount; i++){
+		for(int i = 1; i<= Constants.stockCount; i++){
 			String name = randomAlphabeticString(Constants.stockNameLength);
-			float currentPrice = (float) (Math.random() * Constants.maxStockPrice);
+			double currentPrice = (double) (Math.random() * Constants.maxStockPrice);
+			currentPrice = Math.round(currentPrice*100)/100.0;
 			Timestamp currentTime = new Timestamp(System.currentTimeMillis());
 			stockMap.put(i, new Stock(i, name, currentPrice, currentTime));
 		}
