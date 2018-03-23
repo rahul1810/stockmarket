@@ -1,4 +1,4 @@
-package com.stock.util;
+package com.stock.response;
 
 import java.util.HashMap;
 import java.util.Map;

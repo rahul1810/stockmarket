@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 
 import com.stock.entity.Stock;
 import com.stock.exception.StockException;
-import com.stock.util.ResponseCodes;
+import com.stock.response.ResponseCodes;
 
 @Component
 public class StockManager{

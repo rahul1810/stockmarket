@@ -1,4 +1,4 @@
-package com.stock.util;
+package com.stock.response;
 
 public class BaseResponse {
 	

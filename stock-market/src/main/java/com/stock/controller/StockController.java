@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.stock.util.BaseResponse;
-import com.stock.util.ResponseCodes;
-import com.stock.util.ResponseMessages;
 import com.stock.entity.Stock;
 import com.stock.exception.StockException;
 import com.stock.manager.StockManager;
+import com.stock.response.BaseResponse;
+import com.stock.response.ResponseCodes;
+import com.stock.response.ResponseMessages;
 
 @RestController
 @RequestMapping("/api")
