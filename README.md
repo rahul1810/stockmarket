@@ -1,6 +1,8 @@
 # Stock Market
 
-This application is a basic stock market simulation. It loads content at startup, which are randomised through configuration file *application.properties*.
+This application is a basic stock market simulation. It loads content at startup, which are randomised through configuration file _application.properties_.
+
+The application runs on port _7777_. This can be changed from _application.properties_
 
 To run the application, take checkout and execute the below command from project directory
 
@@ -19,7 +21,7 @@ Request Body (application/json):
 ```
 {
         "id": 189,
-        "currentPrice": 39.34106
+        "currentPrice": 39.34
 }
 ```
 ## Create Stock
@@ -29,7 +31,7 @@ Request Body (application/json):
 ```
 {
         "id": 1,
-        "currentPrice": 39.34106,
+        "currentPrice": 39.34,
         "name": "TEST"
 }
 ```
