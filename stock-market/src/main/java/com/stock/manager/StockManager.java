@@ -43,25 +43,28 @@ public class StockManager{
 	/*
 	 * Updates stock if it exists. If it does not, this returns an exception
 	 */
-	public void updateStock(int id, double price) throws StockException{
+	public int updateStock(int id, double price) throws StockException{
 		logger.info("Updating stock with id: " + id);
 		Stock stock = stockMap.get(id);
 		if(stock == null)
 			throw new StockException(ResponseCodes.STOCK_NOT_FOUND);
 		stock.setCurrentPrice(price);
 		stock.setLastUpdate(new Timestamp(System.currentTimeMillis()));
+		return ResponseCodes.STOCK_PRICE_SUCCESSFULLY_UPDATED;
 	}
 	
 	
 	/*
 	 * Creates stock if it does not exists. If it does, this returns an exception
 	 */
-	public void addStock(Stock stock) throws StockException{
+	public int addStock(Stock stock) throws StockException{
 		logger.info("Creating new stock");
 		if(stockMap.containsKey(stock.getId()))
 			throw new StockException(ResponseCodes.STOCK_ALREADY_EXISTS);
 		stock.setLastUpdate(new Timestamp(System.currentTimeMillis()));
 		stockMap.put(stock.getId(), stock);
+		return ResponseCodes.STOCK_SUCCESSFULLY_ADDED;
+
 	}
 	
 	@PostConstruct

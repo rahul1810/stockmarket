@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.stock.util.BaseResponse;
 import com.stock.util.ResponseCodes;
 import com.stock.util.ResponseMessages;
 import com.stock.entity.Stock;
@@ -29,24 +30,16 @@ public class StockController {
 	}
 
 	@RequestMapping(value = "/stocks/1", method = RequestMethod.PUT)
-	public ResponseEntity<String> updateOneStock(@RequestBody Stock stock) {
-		try {
-			stockManager.updateStock(stock.getId(), stock.getCurrentPrice());
-		} catch (StockException e) {
-			return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
-		}
-		return new ResponseEntity<>(ResponseMessages.messages.get(ResponseCodes.SUCCESS),HttpStatus.ACCEPTED);
+	public ResponseEntity<BaseResponse> updateOneStock(@RequestBody Stock stock) throws StockException {
+		int responseCode = stockManager.updateStock(stock.getId(), stock.getCurrentPrice());
+		return new ResponseEntity<>(new BaseResponse(responseCode),HttpStatus.ACCEPTED);
 		
 	}
 
 	@RequestMapping(value = "/stocks/1", method = RequestMethod.POST)
-	public ResponseEntity<String> addStock(@RequestBody Stock stock) {
-		try {
-			stockManager.addStock(stock);
-		} catch (StockException e) {
-			return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
-		}
-		return new ResponseEntity<>(ResponseMessages.messages.get(ResponseCodes.SUCCESS),HttpStatus.CREATED);
+	public ResponseEntity<BaseResponse> addStock(@RequestBody Stock stock) throws StockException {
+		int responseCode = stockManager.addStock(stock);
+		return new ResponseEntity<>(new BaseResponse(responseCode),HttpStatus.CREATED);
 	}
 
 }
